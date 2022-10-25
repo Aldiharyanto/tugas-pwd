@@ -60,7 +60,7 @@ if (isset($_GET['edit'])) {
     <?php } else { ?>
     <form action="simpan.php" method="POST" class="row g-3">
         <div class="col-md-6">
-            <label for="nim" class="form-label">NIM</label>
+            <label for="id" class="form-label">id</label>
             <input type="text" class="form-control" name="nim" id="nim" />
         </div>
         <div class="col-md-6">
@@ -72,8 +72,8 @@ if (isset($_GET['edit'])) {
             <input type="text" class="form-control" name="alamat" id="alamat" />
         </div>
         <div class="col-md-6">
-            <label for="nomorhp" class="form-label">Nomor HP</label>
-            <input type="text" class="form-control" name="nomorhp" id="nomorhp" />
+            <label for="nohp" class="form-label">Nomor HP</label>
+            <input type="text" class="form-control" name="nohp" id="nohp" />
         </div>
         <div class="col-md-6">
             <label for="email" class="form-label">Email</label>
