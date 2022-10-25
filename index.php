@@ -31,6 +31,7 @@
       if(isset($_GET['edit'])) {
         while ($data = mysqli_fetch_array($getDataEdit)) {?>
           <form action="edit.php" method="POST" class="row g-3">
+            <input type="hidden" value="<?= $data['id'] ?>" name="id"/>
             <div class="col-md-6">
               <label for="nim" class="form-label">NIM</label>
               <input type="text" class="form-control" name="nim" id="nim" value="<?= $data['nim'] ?>" />
@@ -45,14 +46,14 @@
             </div>
             <div class="col-md-6">
               <label for="nomorhp" class="form-label">Nomor HP</label>
-              <input type="text" class="form-control" name="nomorhp" id="nomorhp" value="<?= $data['nohp'] ?>"/>
+              <input type="text" class="form-control" name="nohp" id="nohp" value="<?= $data['nohp'] ?>"/>
             </div>
             <div class="col-md-6">
               <label for="email" class="form-label">Email</label>
               <input type="text" class="form-control" name="email" id="email" value="<?= $data['email'] ?>"/>
             </div>
             <div class="col-md-1">
-              <button type="button" class="btn btn-primary" type="submit" name="submit">
+              <button class="btn btn-primary" type="submit" name="submit">
                 Simpan
               </button>
             </div>
@@ -81,9 +82,9 @@
           <input type="text" class="form-control" name="email" id="email" />
         </div>
         <div class="col-md-1">
-          <button type="button" class="btn btn-primary" type="submit" name="submit">
-            Simpan
-          </button>
+            <button class="btn btn-primary" type="submit" name="submit">
+              Simpan
+            </button>
         </div>
       </form>
     <?php } ?>
