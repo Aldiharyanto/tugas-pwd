@@ -2,6 +2,12 @@
   require_once 'connection.php';
 
   $getData = mysqli_query($conn, "SELECT * FROM mhs");
+
+
+  if(isset($_GET['edit'])) {
+    $idEdit = $_GET['edit'];
+    $getDataEdit = mysqli_query($conn, "SELECT * FROM mhs WHERE id = $idEdit");
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,34 +27,67 @@
 
   </head>
   <body class="container-fluid">
-    <form action="simpan.php" method="POST" class="row g-3">
-      <div class="col-md-6">
-        <label for="nim" class="form-label">NIM</label>
-        <input type="text" class="form-control" name="nim" id="nim" />
-      </div>
-      <div class="col-md-6">
-        <label for="nama" class="form-label">Nama</label>
-        <input type="text" class="form-control" name="nama" id="nama" />
-      </div>
-      <div class="col-md-12">
-        <label for="alamat" class="form-label">Alamat</label>
-        <input type="text" class="form-control" name="alamat" id="alamat" />
-      </div>
-      <div class="col-md-6">
-        <label for="nomorhp" class="form-label">Nomor HP</label>
-        <input type="text" class="form-control" name="nomorhp" id="nomorhp" />
-      </div>
-      <div class="col-md-6">
-        <label for="email" class="form-label">Email</label>
-        <input type="text" class="form-control" name="email" id="email" />
-      </div>
-
-      <div class="col-md-1">
-        <button type="button" class="btn btn-primary" type="submit" name="submit">
-          Simpan
-        </button>
-      </div>
-    </form>
+    <?php
+      if(isset($_GET['edit'])) {
+        while ($data = mysqli_fetch_array($getDataEdit)) {?>
+          <form action="edit.php" method="POST" class="row g-3">
+            <input type="hidden" value="<?= $data['id'] ?>" name="id"/>
+            <div class="col-md-6">
+              <label for="nim" class="form-label">NIM</label>
+              <input type="text" class="form-control" name="nim" id="nim" value="<?= $data['nim'] ?>" />
+            </div>
+            <div class="col-md-6">
+              <label for="nama" class="form-label">Nama</label>
+              <input type="text" class="form-control" name="nama" id="nama" value="<?= $data['nama'] ?>"/>
+            </div>
+            <div class="col-md-12">
+              <label for="alamat" class="form-label">Alamat</label>
+              <input type="text" class="form-control" name="alamat" id="alamat" value="<?= $data['alamat'] ?>"/>
+            </div>
+            <div class="col-md-6">
+              <label for="nomorhp" class="form-label">Nomor HP</label>
+              <input type="text" class="form-control" name="nohp" id="nohp" value="<?= $data['nohp'] ?>"/>
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" name="email" id="email" value="<?= $data['email'] ?>"/>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-primary" type="submit" name="submit">
+                Simpan
+              </button>
+            </div>
+          </form>
+        <?php }; ?>
+      <?php } else {?>
+      <form action="simpan.php" method="POST" class="row g-3">
+        <div class="col-md-6">
+          <label for="nim" class="form-label">NIM</label>
+          <input type="text" class="form-control" name="nim" id="nim" />
+        </div>
+        <div class="col-md-6">
+          <label for="nama" class="form-label">Nama</label>
+          <input type="text" class="form-control" name="nama" id="nama" />
+        </div>
+        <div class="col-md-12">
+          <label for="alamat" class="form-label">Alamat</label>
+          <input type="text" class="form-control" name="alamat" id="alamat" />
+        </div>
+        <div class="col-md-6">
+          <label for="nomorhp" class="form-label">Nomor HP</label>
+          <input type="text" class="form-control" name="nomorhp" id="nomorhp" />
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="text" class="form-control" name="email" id="email" />
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary" type="submit" name="submit">
+              Simpan
+            </button>
+        </div>
+      </form>
+    <?php } ?>
 
     <table class="table">
       <thead>
@@ -77,7 +116,7 @@
             <td><?= $data["nohp"] ?></td>
             <td><?= $data["email"] ?></td>
             <td>
-              <a>Edit</a>
+              <a href="?edit=<?= $data['id'] ?>">Edit</a>
             </td>
             <td>
               <a>hapus</a>
