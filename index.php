@@ -2,6 +2,12 @@
 require_once 'connection.php';
 
 $getData = mysqli_query($conn, "SELECT * FROM mhs");
+
+
+if (isset($_GET['edit'])) {
+    $idEdit = $_GET['edit'];
+    $getDataEdit = mysqli_query($conn, "SELECT * FROM mhs WHERE id = $idEdit");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +16,7 @@ $getData = mysqli_query($conn, "SELECT * FROM mhs");
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mahasiswa</title>
+    <title>mahasiswa informatika</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
@@ -19,6 +25,39 @@ $getData = mysqli_query($conn, "SELECT * FROM mhs");
 </head>
 
 <body class="container-fluid">
+    <?php
+    if (isset($_GET['edit'])) {
+        while ($data = mysqli_fetch_array($getDataEdit)) { ?>
+    <form action="edit.php" method="POST" class="row g-3">
+        <input type="hidden" value="<?= $data['id'] ?>" name="id" />
+        <div class="col-md-6">
+            <label for="nim" class="form-label">NIM</label>
+            <input type="text" class="form-control" name="nim" id="nim" value="<?= $data['nim'] ?>" />
+        </div>
+        <div class="col-md-6">
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" class="form-control" name="nama" id="nama" value="<?= $data['nama'] ?>" />
+        </div>
+        <div class="col-md-12">
+            <label for="alamat" class="form-label">Alamat</label>
+            <input type="text" class="form-control" name="alamat" id="alamat" value="<?= $data['alamat'] ?>" />
+        </div>
+        <div class="col-md-6">
+            <label for="nomorhp" class="form-label">Nomor HP</label>
+            <input type="text" class="form-control" name="nohp" id="nohp" value="<?= $data['nohp'] ?>" />
+        </div>
+        <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="email" id="email" value="<?= $data['email'] ?>" />
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary" type="submit" name="submit">
+                Simpan
+            </button>
+        </div>
+    </form>
+    <?php }; ?>
+    <?php } else { ?>
     <form action="simpan.php" method="POST" class="row g-3">
         <div class="col-md-6">
             <label for="nim" class="form-label">NIM</label>
@@ -40,13 +79,13 @@ $getData = mysqli_query($conn, "SELECT * FROM mhs");
             <label for="email" class="form-label">Email</label>
             <input type="text" class="form-control" name="email" id="email" />
         </div>
-
         <div class="col-md-1">
-            <button type="button" class="btn btn-primary" type="submit" name="submit">
+            <button class="btn btn-primary" type="submit" name="submit">
                 Simpan
             </button>
         </div>
     </form>
+    <?php } ?>
 
     <table class="table">
         <thead>
@@ -65,9 +104,9 @@ $getData = mysqli_query($conn, "SELECT * FROM mhs");
         <tbody>
 
             <?php
-      $num = 1;
-      while ($data = mysqli_fetch_array($getData)) {
-      ?>
+            $num = 1;
+            while ($data = mysqli_fetch_array($getData)) {
+            ?>
             <tr class="table-row">
                 <td><?= $num ?></td>
                 <td><?= $data["nama"] ?></td>
@@ -75,13 +114,13 @@ $getData = mysqli_query($conn, "SELECT * FROM mhs");
                 <td><?= $data["nohp"] ?></td>
                 <td><?= $data["email"] ?></td>
                 <td>
-                    <a>Edit</a>
+                    <a href="?edit=<?= $data['id'] ?>">Edit</a>
                 </td>
                 <?php
-          echo "<td>";
-          echo "<a href='delete.php?id=$data[id]'>Hapus</a></td></tr>";
-          echo "</td>";
-          ?>
+                    echo "<td>";
+                    echo "<a href='delete.php?id=$data[id]'>Hapus</a></td></tr>";
+                    echo "</td>";
+                    ?>
             </tr>
             <?php $num++; ?>
             <?php } ?>
